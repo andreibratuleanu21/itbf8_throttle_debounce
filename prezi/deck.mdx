@@ -1,0 +1,151 @@
+import {
+  CodeSurfer,
+} from "code-surfer";
+import { nightOwl } from "@code-surfer/themes";
+import Prism from 'prism-react-renderer/prism';
+import dartLang from 'refractor/lang/dart';
+import src from './assets/logo.png';
+import ssrc from './assets/capture.jpg';
+dartLang(Prism);
+
+
+# Debounce & Throttle
+<div style={{
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+}}>
+  <img src="https://bytex.net/wp-content/uploads/2019/04/bytex-small.png" width="200" />
+  <img src={src} width="400" />
+</div>
+
+### An It Should be Fun session `#8`
+
+---
+
+1. What is?
+2. Dependencies
+3. Real use cases
+4. Implementation
+5. `requestAnimationFrame` - Throttle alternative
+5. Demo
+
+---
+
+# 1. What is Debounce & Throttle and why we need them?
+
+---
+
+There are 2 techniques / alogorithms used to control the calling frequency of a function.
+
+---
+
+See https://materialdesignicons.com/.
+
+4000 SVG Elements need to be filtered and rendered.
+
+`<input>` has a on `input` event listener.
+
+Searching for `location` results in ~ 8 * 4000 renders
+
+---
+
+Render after an amount of time passed without another input event.
+
+Basically after the user stopped typing for a (short) while.
+
+---
+
+### 2. What we need to know (npm i -S):
+
+1. Scope, Closure & Hoisting
+2. What `.apply()` does
+3. Knowledge about `The Call Stack`.
+
+---
+
+### 3. When we need them?
+
+- Api calls on input event
+- Prevent some accidental `button` double click
+- Re-position an element on scroll / resize event
+- ...
+- You name it...
+
+---
+
+### 4. Implementation
+
+or you can find implementations on npm
+
+Loadash has a debounce method for example
+
+---
+
+<CodeSurfer theme={nightOwl}>
+
+```js
+function throttle(func, limit) {
+
+  // add a block scope flag;
+  let inThrottle;
+
+  // we will return a function that we will call later
+  return function() {
+
+    // we need to get the function arguments
+    // and apply them to the func call
+    // throttle(resizeCertainElement, 50)(scroll.x, scroll.y);
+    const args = arguments;
+
+    // Get the context, we need one for .apply()
+    const context = this;
+
+    // if last timneout didn't finished
+    // do nothing
+    // else
+    if (!inThrottle) {
+
+      // call the function
+      func.apply(context, args);
+      inThrottle = true;
+
+      // wait untill limit to raise the flag again
+      setTimeout(() => inThrottle = false, limit);
+    }
+  };
+};
+```
+
+</CodeSurfer>
+
+---
+
+<CodeSurfer theme={nightOwl}>
+
+```js
+function debounce(func, delay) {
+
+  // add a block scope var with the timeout id
+  let timeoutId;
+
+  return function() {
+
+    // get context and arguments
+    const context = this;
+    const args = arguments;
+
+    // clear the previos set timeout to replace it with a new
+    clearTimeout(timeoutId);
+
+    // set the timeout with the delay
+    timeoutId = setTimeout(() => func.apply(context, args), delay);
+  };
+};
+```
+
+</CodeSurfer>
+
+---
+
+# Thank you!
