@@ -25,10 +25,9 @@ dartLang(Prism);
 
 1. What is?
 2. Dependencies
-3. Real use cases
-4. Implementation
+3. Implementation
+4. Real use cases & Demo
 5. `requestAnimationFrame` - Throttle alternative
-5. Demo
 
 ---
 
@@ -64,17 +63,7 @@ Basically after the user stopped typing for a (short) while.
 
 ---
 
-### 3. When we need them?
-
-- Api calls on input event
-- Prevent some accidental `button` double click
-- Re-position an element on scroll / resize event
-- ...
-- You name it...
-
----
-
-### 4. Implementation
+### 3. Implementation
 
 or you can find implementations on npm
 
@@ -145,6 +134,25 @@ function debounce(func, delay) {
 ```
 
 </CodeSurfer>
+
+---
+
+### 4. When we need them?
+
+- API calls on input event
+- Show 'user X is typing...'
+- Prevent some accidental `button` double click
+- Save precious bandwidth by limiting API calls
+- Re-position an element on scroll / resize event
+- I want to show a tooltip, but not right away
+- ...
+- You name it...
+
+---
+
+### 5. `window.requestAnimationFrame()` is an example of a throttle function
+
+Each time everithing is done, nothing is blocking the thread anymore, call my function to do something.
 
 ---
 

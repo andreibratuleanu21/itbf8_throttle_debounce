@@ -133,16 +133,29 @@ function processMoveEv(ev) {
   counter++;
 }
 
-document.querySelector('#content').addEventListener('mousemove', processMoveEv); // Debounced MOVE EV
+document.querySelector('#content').addEventListener('mousemove', function (ev) {
+  window.requestAnimationFrame(function () {
+    return processMoveEv(ev);
+  });
+}); // Throttled MOVE EV
+// document.querySelector('#content').addEventListener('mousemove', throttle(processMoveEv, 200));
+// Debounced MOVE EV
 
-/**
+/*
+ * This will not work because we create a new instance of debounce(processMoveEv, 1000) each time. And each instance will complete after 1 sec.
 document.querySelector('#content').addEventListener('mousemove', function(event) {
   debounce(processMoveEv, 1000)(event);
 });
+
+Instead do this
+
+const debouncedProcess(processMoveEv, 1000);
+
+document.querySelector('#content').addEventListener('mousemove', function(event) {
+  debouncedProcess(event);
+});
 */
-// document.querySelector('#content').addEventListener('mousemove', debounce(processMoveEv, 1000));
-// Throttled MOVE EV
-// document.querySelector('#content').addEventListener('mousemove', throttle(processMoveEv, 100));
+// document.querySelector('#content').addEventListener('mousemove', debounce(processMoveEv, 500));
 // Debounce & Throttle
 
 function debounce(func, delay) {
@@ -226,7 +239,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52392" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64282" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

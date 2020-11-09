@@ -16,20 +16,31 @@ function processMoveEv(ev) {
   counter++;
 }
 
-document.querySelector('#content').addEventListener('mousemove', processMoveEv);
+document.querySelector('#content').addEventListener('mousemove', (ev) => {
+  window.requestAnimationFrame(() => processMoveEv(ev));
+});
+
+// Throttled MOVE EV
+// document.querySelector('#content').addEventListener('mousemove', throttle(processMoveEv, 200));
 
 // Debounced MOVE EV
-/**
+/*
+ * This will not work because we create a new instance of debounce(processMoveEv, 1000) each time. And each instance will complete after 1 sec.
 document.querySelector('#content').addEventListener('mousemove', function(event) {
   debounce(processMoveEv, 1000)(event);
 });
+
+Instead do this
+
+const debouncedProcess(processMoveEv, 1000);
+
+document.querySelector('#content').addEventListener('mousemove', function(event) {
+  debouncedProcess(event);
+});
 */
 
-// document.querySelector('#content').addEventListener('mousemove', debounce(processMoveEv, 1000));
+// document.querySelector('#content').addEventListener('mousemove', debounce(processMoveEv, 500));
 
-
-// Throttled MOVE EV
-// document.querySelector('#content').addEventListener('mousemove', throttle(processMoveEv, 100));
 
 // Debounce & Throttle
 function debounce(func, delay) {
